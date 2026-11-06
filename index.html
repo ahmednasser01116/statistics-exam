@@ -2286,6 +2286,7 @@
       const formattedTimeTaken = `${String(timeMin).padStart(2, '0')}:${String(timeSec).padStart(2, '0')}`;
 
       const payload = {
+        id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
         studentName: state.studentName,
         score: correctCount,
         total: total,
@@ -2304,11 +2305,14 @@
         console.warn('LocalStorage error:', e);
       }
 
-      // Cloud database save (Permanent 24/7 Cloud Store)
+      // Cloud database save (Permanent 24/7 Cloud Store - Cache-busted)
       try {
         let existing = [];
         try {
-          const cloudRes = await fetch('https://kvdb.io/GvjcdMkHLaYt5Q96PYXJRQ/results');
+          const cloudRes = await fetch('https://kvdb.io/GvjcdMkHLaYt5Q96PYXJRQ/results?_t=' + Date.now(), {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+          });
           if (cloudRes.ok) existing = await cloudRes.json();
         } catch (e) {}
         if (!Array.isArray(existing)) existing = [];

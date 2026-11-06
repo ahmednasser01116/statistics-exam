@@ -1884,7 +1884,7 @@
        CONSTANTS & QUESTIONS DATA
        ========================================================================== */
     const ADMIN_PASSWORD_HASH = 'admin2024';
-    const AUTO_REFRESH_INTERVAL_SEC = 30;
+    const AUTO_REFRESH_INTERVAL_SEC = 10;
 
     const QUESTIONS_DATA = [
   {
@@ -2347,13 +2347,19 @@
       try {
         let loaded = false;
 
-        // 1. Try Cloud Database first (works everywhere, 24/7)
+        // 1. Try Cloud Database first (works everywhere, 24/7, cache-busted)
         try {
-          const cloudRes = await fetch(CLOUD_DB_URL);
+          const cloudRes = await fetch(CLOUD_DB_URL + '?_t=' + Date.now(), {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+          });
           if (cloudRes.ok) {
             const data = await cloudRes.json();
             if (Array.isArray(data)) {
-              rawResults = data;
+              rawResults = data.map((r, idx) => ({
+                ...r,
+                id: r.id || ('res_' + idx + '_' + (r.timestamp ? new Date(r.timestamp).getTime() : Date.now()))
+              }));
               currentStats = computeStatsFromList(rawResults);
               loaded = true;
             }
@@ -2751,11 +2757,17 @@
       try {
         // Delete from Cloud Database
         try {
-          const cloudRes = await fetch(CLOUD_DB_URL);
+          const cloudRes = await fetch(CLOUD_DB_URL + '?_t=' + Date.now(), {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          });
           if (cloudRes.ok) {
             let list = await cloudRes.json();
             if (Array.isArray(list)) {
-              list = list.filter(r => r.id !== id);
+              list = list.filter((r, idx) => {
+                const currentId = r.id || ('res_' + idx + '_' + (r.timestamp ? new Date(r.timestamp).getTime() : ''));
+                return currentId !== id;
+              });
               await fetch(CLOUD_DB_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
