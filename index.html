@@ -2309,10 +2309,7 @@
       try {
         let existing = [];
         try {
-          const cloudRes = await fetch('https://kvdb.io/GvjcdMkHLaYt5Q96PYXJRQ/results?_t=' + Date.now(), {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-          });
+          const cloudRes = await fetch('https://kvdb.io/GvjcdMkHLaYt5Q96PYXJRQ/results?_t=' + Date.now());
           if (cloudRes.ok) existing = await cloudRes.json();
         } catch (e) {}
         if (!Array.isArray(existing)) existing = [];

@@ -2347,12 +2347,9 @@
       try {
         let loaded = false;
 
-        // 1. Try Cloud Database first (works everywhere, 24/7, cache-busted)
+        // 1. Try Cloud Database first (works everywhere, 24/7, cache-busted, clean CORS)
         try {
-          const cloudRes = await fetch(CLOUD_DB_URL + '?_t=' + Date.now(), {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-          });
+          const cloudRes = await fetch(CLOUD_DB_URL + '?_t=' + Date.now());
           if (cloudRes.ok) {
             const data = await cloudRes.json();
             if (Array.isArray(data)) {
@@ -2757,10 +2754,7 @@
       try {
         // Delete from Cloud Database
         try {
-          const cloudRes = await fetch(CLOUD_DB_URL + '?_t=' + Date.now(), {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' }
-          });
+          const cloudRes = await fetch(CLOUD_DB_URL + '?_t=' + Date.now());
           if (cloudRes.ok) {
             let list = await cloudRes.json();
             if (Array.isArray(list)) {
