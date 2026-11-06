@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Statistics Exam • Chapters 1 & 2</title>
+
+  <!-- Apple Mobile Web App Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Stats Exam">
+  <meta name="theme-color" content="#0f0c29">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- SEO & Social Sharing -->
+  <meta name="description" content="Online Statistics Exam for Chapters 1 & 2 - El Moasser Style. Created by Eng Mohamed Mesbah.">
+  <meta property="og:title" content="Statistics Exam • Chapters 1 & 2">
+  <meta property="og:description" content="Test your knowledge on Data Types, Frequency Distributions, Central Tendency and Dispersion.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS Custom Properties (Variables)
+       ========================================================================== */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      --accent-primary: #6C63FF;
+      --accent-primary-hover: #584ef5;
+      --accent-secondary: #FF6584;
+      --accent-secondary-hover: #fa4f72;
+      --color-success: #00C853;
+      --color-warning: #FFD600;
+      --color-error: #FF1744;
+      --color-info: #00B0FF;
+
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-bg-subtle: rgba(255, 255, 255, 0.03);
+      --card-bg-active: rgba(108, 99, 255, 0.16);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --card-border-active: rgba(108, 99, 255, 0.65);
+      --card-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.38);
+
+      --text-white: #ffffff;
+      --text-main: #f0f3fa;
+      --text-muted: rgba(240, 243, 250, 0.7);
+      --text-dim: rgba(240, 243, 250, 0.45);
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+
+      --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* ==========================================================================
+       Reset & Base Styles
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: var(--safe-top);
+      padding-bottom: var(--safe-bottom);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ==========================================================================
+       Background Watermark & Ambient Glow Orbs
+       ========================================================================== */
+    .watermark-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.042;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='160'%3E%3Ctext x='40' y='100' fill='%23ffffff' font-family='Poppins, sans-serif' font-size='16' font-weight='800' letter-spacing='3' transform='rotate(-24 140 80)'%3EENG MOHAMED MESBAH%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 280px 160px;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.28;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 380px;
+      height: 380px;
+      background: var(--accent-primary);
+      top: -80px;
+      left: -80px;
+    }
+
+    .orb-2 {
+      width: 340px;
+      height: 340px;
+      background: var(--accent-secondary);
+      bottom: -60px;
+      right: -60px;
+      animation-delay: -9s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.12); }
+      100% { transform: translate(-30px, 70px) scale(0.95); }
+    }
+
+    /* ==========================================================================
+       Layout Container & Screen Management
+       ========================================================================== */
+    .app-container {
+      width: 100%;
+      max-width: 760px;
+      padding: 1.25rem;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    @media (min-width: 640px) {
+      .app-container {
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    .screen {
+      display: none;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      width: 100%;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================================================
+       Glassmorphism Component Cards
+       ========================================================================== */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--card-shadow);
+      padding: 1.75rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (max-width: 480px) {
+      .glass-card {
+        padding: 1.25rem 1.1rem;
+        border-radius: var(--radius-md);
+      }
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    }
+
+    /* ==========================================================================
+       Typography & Gradient Text
+       ========================================================================== */
+    .gradient-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: center;
+      background: linear-gradient(135deg, #ffffff 15%, #b9b4ff 60%, #FF6584 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.5px;
+    }
+
+    @media (max-width: 480px) {
+      .gradient-title {
+        font-size: 1.85rem;
+      }
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--accent-secondary);
+      text-align: center;
+      margin-bottom: 1.75rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================================
+       Buttons & Interactive Elements
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 50px;
+      padding: 0.75rem 1.75rem;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition-bounce);
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary) 0%, #8c52ff 50%, var(--accent-secondary) 100%);
+      color: var(--text-white);
+      box-shadow: 0 6px 24px rgba(108, 99, 255, 0.45);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 8px 30px rgba(108, 99, 255, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #00C853 0%, #009624 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 200, 83, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #FF1744 0%, #D50000 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(255, 23, 68, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* ==========================================================================
+       SCREEN 1: Welcome / Registration
+       ========================================================================== */
+    .welcome-card {
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .stats-icon-badge {
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 1.5rem auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.25), rgba(255, 101, 132, 0.25));
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(108, 99, 255, 0.35);
+      animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(108, 99, 255, 0.3); }
+      100% { transform: scale(1.05); box-shadow: 0 0 35px rgba(255, 101, 132, 0.5); }
+    }
+
+    .stats-icon-badge svg {
+      width: 44px;
+      height: 44px;
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .exam-info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      .exam-info-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+      }
+    }
+
+    .info-pill {
+      background: var(--card-bg-subtle);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      transition: var(--transition-smooth);
+    }
+
+    .info-pill:hover {
+      border-color: rgba(108, 99, 255, 0.4);
+      background: rgba(108, 99, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .info-pill .icon {
+      font-size: 1.3rem;
+    }
+
+    .info-pill .value {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-white);
+    }
+
+    .info-pill .label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 52px;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      font-family: inherit;
+      font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+      color: var(--text-white);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .form-input:focus {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.25);
+    }
+
+    .input-error-msg {
+      color: var(--color-error);
+      font-size: 0.82rem;
+      margin-top: 0.4rem;
+      display: none;
+      text-align: left;
+    }
+
+    .created-by-badge {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .created-by-badge strong {
+      color: var(--accent-secondary);
+      font-weight: 600;
+      letter-spacing: 0.4px;
+    }
+
+    /* ==========================================================================
+       SCREEN 2: Exam Interface
+       ========================================================================== */
+    .exam-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .student-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.9rem;
+      background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-white);
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .student-badge .avatar-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-success);
+      box-shadow: 0 0 8px var(--color-success);
+    }
+
+    .timer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      background: rgba(108, 99, 255, 0.15);
+      border: 1px solid rgba(108, 99, 255, 0.4);
+      color: #b9b4ff;
+      transition: var(--transition-smooth);
+    }
+
+    .timer-badge.urgent {
+      background: rgba(255, 23, 68, 0.2);
+      border-color: var(--color-error);
+      color: #ff6e87;
+      animation: timerPulse 1s infinite alternate;
+    }
+
+    @keyframes timerPulse {
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 23, 68, 0.4); }
+      100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 23, 68, 0.8); }
+    }
+
+    .q-counter-badge {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent-secondary);
+      background: rgba(255, 101, 132, 0.12);
+      border: 1px solid rgba(255, 101, 132, 0.3);
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-full);
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 5%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: var(--radius-full);
+      transition: width 0.35s ease;
+      box-shadow: 0 0 12px rgba(108, 99, 255, 0.6);
+    }
+
+    /* Question Card & Slide Transitions */
+    .question-viewport {
+      position: relative;
+      overflow: hidden;
+      min-height: 380px;
+      margin-bottom: 1.25rem;
+    }
+
+    .question-slide {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      width: 100%;
+    }
+
+    .question-slide.slide-out-left {
+      transform: translateX(-40px);
+      opacity: 0;
+    }
+
+    .question-slide.slide-out-right {
+      transform: translateX(40px);
+      opacity: 0;
+    }
+
+    .question-slide.slide-in {
+      animation: slideInCurrent 0.32s ease forwards;
+    }
+
+    @keyframes slideInCurrent {
+      from { transform: translateX(0); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .chapter-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      background: rgba(108, 99, 255, 0.2);
+      color: #c4bfff;
+      border: 1px solid rgba(108, 99, 255, 0.35);
+    }
+
+    .question-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--text-white);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      .question-text {
+        font-size: 1.05rem;
+      }
+    }
+
+    
+    /* Embedded diagram & table styles */
+    .diagram-container {
+      margin: 1.25rem 0;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+    }
+    .exam-diagram {
+      max-width: 100%;
+      height: auto;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+    }
+    .data-table-wrapper {
+      margin: 1rem 0;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+    }
+    .exam-data-table {
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(108, 99, 255, 0.35);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 0.95rem;
+    }
+    .exam-data-table th, .exam-data-table td {
+      padding: 0.6rem 1rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .exam-data-table th {
+      background: rgba(108, 99, 255, 0.25);
+      color: #FFD600;
+      font-weight: 700;
+    }
+    .exam-data-table td {
+      color: #ffffff;
+      font-weight: 500;
+    }
+    .stem-leaf-wrapper {
+      margin: 1rem auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .stem-leaf-table {
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 101, 132, 0.35);
+      border-radius: 10px;
+      overflow: hidden;
+      min-width: 220px;
+    }
+    .stem-leaf-table th {
+      background: rgba(255, 101, 132, 0.25);
+      color: #FF8BA7;
+      padding: 0.5rem 1.2rem;
+      border-bottom: 2px solid rgba(255, 101, 132, 0.4);
+      font-weight: 700;
+    }
+    .stem-leaf-table td {
+      padding: 0.45rem 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+    .stem-leaf-table td:first-child {
+      border-right: 2px solid rgba(255, 255, 255, 0.25);
+      font-weight: 700;
+      color: #FFD600;
+      text-align: right;
+    }
+    .stem-leaf-table td:last-child {
+      letter-spacing: 4px;
+      text-align: left;
+    }
+    .stem-leaf-key {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    /* Options List */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-height: 54px;
+      padding: 0.85rem 1.15rem;
+      background: var(--card-bg-subtle);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition-bounce);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .option-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .option-card:active {
+      transform: scale(0.985);
+    }
+
+    .option-card.selected {
+      background: var(--card-bg-active);
+      border-color: var(--card-border-active);
+      box-shadow: 0 4px 20px rgba(108, 99, 255, 0.35);
+      animation: optionSelect 0.25s ease;
+    }
+
+    @keyframes optionSelect {
+      0% { transform: scale(0.98); }
+      50% { transform: scale(1.015); }
+      100% { transform: scale(1); }
+    }
+
+    .option-letter {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+    }
+
+    .option-card.selected .option-letter {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(108, 99, 255, 0.6);
+    }
+
+    .option-content {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--text-main);
+      flex-grow: 1;
+      line-height: 1.4;
+    }
+
+    .option-radio {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+    }
+
+    .option-card.selected .option-radio {
+      border-color: var(--accent-primary);
+      background: rgba(108, 99, 255, 0.2);
+    }
+
+    .option-radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      opacity: 0;
+      transform: scale(0);
+      transition: var(--transition-bounce);
+    }
+
+    .option-card.selected .option-radio::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Navigation Bar */
+    .exam-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .nav-btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Question Map Grid Drawer / Section */
+    .map-toggle-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.88rem;
+    }
+
+    .question-map-wrapper {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: none;
+    }
+
+    .question-map-wrapper.open {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-map-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .map-legend {
+      display: flex;
+      gap: 0.85rem;
+      font-size: 0.75rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.current { background: var(--accent-primary); box-shadow: 0 0 6px var(--accent-primary); }
+    .legend-dot.answered { background: var(--color-success); box-shadow: 0 0 6px var(--color-success); }
+    .legend-dot.unanswered { background: rgba(255, 255, 255, 0.2); }
+
+    .question-map-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 0.45rem;
+    }
+
+    @media (max-width: 540px) {
+      .question-map-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .q-map-btn {
+      aspect-ratio: 1;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .q-map-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--text-white);
+    }
+
+    .q-map-btn.current {
+      border-color: var(--accent-primary);
+      background: var(--accent-primary);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(108, 99, 255, 0.5);
+    }
+
+    .q-map-btn.answered:not(.current) {
+      border-color: rgba(0, 200, 83, 0.5);
+      background: rgba(0, 200, 83, 0.2);
+      color: #69f0ae;
+    }
+
+    /* ==========================================================================
+       SCREEN 3: Results
+       ========================================================================== */
+    .results-card {
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .score-circle-wrapper {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      margin: 1.5rem auto 1.25rem auto;
+    }
+
+    .score-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .score-circle-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 12;
+    }
+
+    .score-circle-fill {
+      fill: none;
+      stroke: url(#scoreGradient);
+      stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 439.8;
+      stroke-dashoffset: 439.8;
+      transition: stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .score-circle-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-percentage {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-white);
+      line-height: 1;
+    }
+
+    .score-fraction {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .grade-badge {
+      display: inline-block;
+      padding: 0.5rem 1.4rem;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .grade-excellent {
+      background: rgba(0, 200, 83, 0.15);
+      border: 1.5px solid var(--color-success);
+      color: #69f0ae;
+    }
+
+    .grade-very-good {
+      background: rgba(108, 99, 255, 0.15);
+      border: 1.5px solid var(--accent-primary);
+      color: #b9b4ff;
+    }
+
+    .grade-good {
+      background: rgba(255, 214, 0, 0.15);
+      border: 1.5px solid var(--color-warning);
+      color: #ffe57f;
+    }
+
+    .grade-pass {
+      background: rgba(255, 145, 0, 0.15);
+      border: 1.5px solid #FF9100;
+      color: #ffb74d;
+    }
+
+    .grade-fail {
+      background: rgba(255, 23, 68, 0.15);
+      border: 1.5px solid var(--color-error);
+      color: #ff5252;
+    }
+
+    .stats-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 540px) {
+      .stats-summary-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-box {
+      background: var(--card-bg-subtle);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .stat-box-val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .stat-box-lbl {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .results-actions {
+      display: flex;
+      gap: 0.85rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================================================
+       SCREEN 4: Answer Review
+       ========================================================================== */
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .review-filter-group {
+      display: flex;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.3rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--card-border);
+    }
+
+    .filter-btn {
+      background: none;
+      border: none;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .filter-btn.active {
+      background: var(--accent-primary);
+      color: #ffffff;
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .review-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      transition: var(--transition-smooth);
+    }
+
+    .review-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-q-num {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent-secondary);
+    }
+
+    .review-status-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .review-status-tag.correct {
+      background: rgba(0, 200, 83, 0.15);
+      color: #00E676;
+      border: 1px solid rgba(0, 200, 83, 0.35);
+    }
+
+    .review-status-tag.incorrect {
+      background: rgba(255, 23, 68, 0.15);
+      color: #FF5252;
+      border: 1px solid rgba(255, 23, 68, 0.35);
+    }
+
+    .review-status-tag.unanswered {
+      background: rgba(255, 214, 0, 0.15);
+      color: #FFD600;
+      border: 1px solid rgba(255, 214, 0, 0.35);
+    }
+
+    .review-question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 1rem;
+      line-height: 1.45;
+    }
+
+    .review-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-option {
+      padding: 0.65rem 0.9rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.02);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .review-option.correct-choice {
+      background: rgba(0, 200, 83, 0.15);
+      border-color: rgba(0, 200, 83, 0.5);
+      color: #b9f6ca;
+      font-weight: 600;
+    }
+
+    .review-option.wrong-choice {
+      background: rgba(255, 23, 68, 0.15);
+      border-color: rgba(255, 23, 68, 0.5);
+      color: #ff8a80;
+      font-weight: 600;
+    }
+
+    .review-explanation {
+      background: rgba(108, 99, 255, 0.08);
+      border-left: 3px solid var(--accent-primary);
+      padding: 0.75rem 0.9rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .review-explanation strong {
+      color: #b9b4ff;
+    }
+
+    .review-sticky-footer {
+      position: sticky;
+      bottom: var(--safe-bottom);
+      padding: 1rem 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(15, 12, 41, 0.95) 40%);
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    /* ==========================================================================
+       Modals & Dialogs
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 8, 25, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 99;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      animation: modalFadeIn 0.25s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 440px;
+      background: #1c1836;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      transform: scale(0.95);
+      animation: modalPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes modalPop {
+      to { transform: scale(1); }
+    }
+
+    .modal-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-body {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3.5px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--accent-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 1.5rem auto 1rem auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 101;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: rgba(30, 26, 60, 0.95);
+      border: 1px solid var(--card-border);
+      color: var(--text-white);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: toastIn 0.3s ease forwards;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Watermark & Ambient Glow Backgrounds -->
+  <div class="watermark-overlay" aria-hidden="true"></div>
+  <div class="ambient-glow orb-1" aria-hidden="true"></div>
+  <div class="ambient-glow orb-2" aria-hidden="true"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- App Wrapper -->
+  <main class="app-container">
+
+    <!-- ==========================================================================
+         SCREEN 1: Welcome & Registration
+         ========================================================================== -->
+    <section id="screen-welcome" class="screen active">
+      <div class="glass-card welcome-card">
+        
+        <!-- Animated Stats Icon -->
+        <div class="stats-icon-badge">
+          <svg viewBox="0 0 24 24">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+            <path d="M4 20h16"></path>
+          </svg>
+        </div>
+
+        <h1 class="gradient-title">Statistics Exam</h1>
+        <div class="subtitle">Chapters 1 & 2 • El Moasser Style</div>
+
+        <!-- Exam Overview Pills -->
+        <div class="exam-info-grid">
+          <div class="info-pill">
+            <span class="icon">📝</span>
+            <span class="value">20</span>
+            <span class="label">Questions</span>
+          </div>
+          <div class="info-pill">
+            <span class="icon">⏱️</span>
+            <span class="value">45m</span>
+            <span class="label">Time Limit</span>
+          </div>
+          <div class="info-pill">
+            <span class="icon">🎯</span>
+            <span class="value">MCQ</span>
+            <span class="label">Format</span>
+          </div>
+        </div>
+
+        <!-- Student Registration Form -->
+        <form id="start-exam-form" onsubmit="handleStartExam(event)">
+          <div class="form-group">
+            <label for="student-name" class="form-label">Student Full Name</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <input 
+                type="text" 
+                id="student-name" 
+                class="form-input" 
+                placeholder="Enter your name to begin..." 
+                autocomplete="name" 
+                required
+                maxlength="50"
+              >
+            </div>
+            <div id="name-error" class="input-error-msg">Please enter your name to start the exam.</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            <span>Start Exam</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <div class="created-by-badge">
+          <span>Created by</span>
+          <strong>Eng Mohamed Mesbah</strong>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SCREEN 2: Exam Questions
+         ========================================================================== -->
+    <section id="screen-exam" class="screen">
+      
+      <!-- Top Exam Bar -->
+      <div class="exam-header">
+        <div class="student-badge">
+          <span class="avatar-dot"></span>
+          <span id="exam-student-display">Student</span>
+        </div>
+
+        <div id="exam-timer" class="timer-badge">
+          <span>⏱️</span>
+          <span id="timer-text">45:00</span>
+        </div>
+
+        <div class="q-counter-badge">
+          <span id="q-counter-display">1 / 20</span>
+        </div>
+      </div>
+
+      <!-- Linear Progress Bar -->
+      <div class="progress-bar-container">
+        <div id="exam-progress-fill" class="progress-bar-fill"></div>
+      </div>
+
+      <!-- Question Card Area -->
+      <div class="glass-card question-viewport">
+        <div id="question-slide-container" class="question-slide">
+          
+          <div class="question-header">
+            <span id="question-tag" class="chapter-tag">Chapter 1 & 2</span>
+          </div>
+
+          <h2 id="question-text" class="question-text">Question text will appear here...</h2>
+
+          <div id="options-container" class="options-list">
+            <!-- 4 Options rendered by JS -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Navigation & Action Controls -->
+      <div class="exam-nav">
+        <button id="btn-prev-question" class="btn btn-secondary" onclick="prevQuestion()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Prev</span>
+        </button>
+
+        <button id="btn-toggle-map" class="btn btn-secondary map-toggle-btn" onclick="toggleQuestionMap()">
+          <span>Question Map</span>
+        </button>
+
+        <div class="nav-btn-group">
+          <button id="btn-next-question" class="btn btn-primary" onclick="nextQuestion()">
+            <span>Next</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          
+          <button id="btn-submit-exam" class="btn btn-success" style="display: none;" onclick="openSubmitModal()">
+            <span>Submit Exam</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Map Grid (Expandable) -->
+      <div id="question-map-wrapper" class="glass-card question-map-wrapper">
+        <div class="question-map-title">
+          <span>Question Navigation Grid</span>
+          <div class="map-legend">
+            <div class="legend-item"><span class="legend-dot current"></span> Current</div>
+            <div class="legend-item"><span class="legend-dot answered"></span> Answered</div>
+            <div class="legend-item"><span class="legend-dot unanswered"></span> Unanswered</div>
+          </div>
+        </div>
+        <div id="question-map-grid" class="question-map-grid">
+          <!-- 20 grid numbers rendered by JS -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         SCREEN 3: Results
+         ========================================================================== -->
+    <section id="screen-results" class="screen">
+      <div class="glass-card results-card">
+        
+        <h1 class="gradient-title">Exam Results</h1>
+        <p id="results-student-name" class="subtitle" style="margin-bottom: 0.5rem;">Student Name</p>
+
+        <!-- Circular Score Ring -->
+        <div class="score-circle-wrapper">
+          <svg class="score-svg" viewBox="0 0 160 160">
+            <defs>
+              <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#6C63FF" />
+                <stop offset="100%" stop-color="#FF6584" />
+              </linearGradient>
+            </defs>
+            <circle class="score-circle-bg" cx="80" cy="80" r="70"></circle>
+            <circle id="score-circle-bar" class="score-circle-fill" cx="80" cy="80" r="70"></circle>
+          </svg>
+          <div class="score-circle-content">
+            <div id="result-percentage" class="score-percentage">0%</div>
+            <div id="result-score-fraction" class="score-fraction">0 / 20</div>
+          </div>
+        </div>
+
+        <!-- Grade Badge -->
+        <div id="result-grade-badge" class="grade-badge grade-excellent">Excellent</div>
+
+        <!-- Stats Grid -->
+        <div class="stats-summary-grid">
+          <div class="stat-box">
+            <span id="stat-correct-count" class="stat-box-val" style="color: var(--color-success);">0</span>
+            <span class="stat-box-lbl">Correct</span>
+          </div>
+          <div class="stat-box">
+            <span id="stat-incorrect-count" class="stat-box-val" style="color: var(--color-error);">0</span>
+            <span class="stat-box-lbl">Incorrect</span>
+          </div>
+          <div class="stat-box">
+            <span id="stat-time-taken" class="stat-box-val">00:00</span>
+            <span class="stat-box-lbl">Time Taken</span>
+          </div>
+          <div class="stat-box">
+            <span id="stat-accuracy" class="stat-box-val">0%</span>
+            <span class="stat-box-lbl">Accuracy</span>
+          </div>
+        </div>
+
+        <!-- Result Action Buttons -->
+        <div class="results-actions">
+          <button class="btn btn-primary" onclick="showReviewScreen()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Review Answers</span>
+          </button>
+
+          <button class="btn btn-secondary" onclick="retakeExam()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+            <span>Take Again</span>
+          </button>
+        </div>
+
+        <div class="created-by-badge" style="margin-top: 1.75rem;">
+          <span>Exam Certified by</span>
+          <strong>Eng Mohamed Mesbah</strong>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SCREEN 4: Answer Review
+         ========================================================================== -->
+    <section id="screen-review" class="screen">
+      
+      <div class="review-header">
+        <div>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #ffffff;">Answer Review</h2>
+          <div id="review-score-summary" style="font-size: 0.9rem; color: var(--text-muted);">Score: 0/20 (0%)</div>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="review-filter-group">
+          <button id="filter-all" class="filter-btn active" onclick="filterReview('all')">All (20)</button>
+          <button id="filter-correct" class="filter-btn" onclick="filterReview('correct')">Correct</button>
+          <button id="filter-incorrect" class="filter-btn" onclick="filterReview('incorrect')">Wrong</button>
+        </div>
+      </div>
+
+      <!-- List of 20 Questions with Detailed Answers -->
+      <div id="review-questions-list" class="review-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="review-sticky-footer">
+        <button class="btn btn-primary" onclick="showScreen('screen-results')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back to Results</span>
+        </button>
+        <button class="btn btn-secondary" onclick="retakeExam()">
+          <span>Take Again</span>
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODALS: Submission Confirmation & Loading
+       ========================================================================== -->
+  <!-- Confirmation Modal -->
+  <div id="confirm-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-icon">⚠️</div>
+      <h3 class="modal-title">Ready to Submit?</h3>
+      <p id="confirm-modal-body" class="modal-body">
+        You are about to finish the Statistics Exam.
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeSubmitModal()">Continue Exam</button>
+        <button class="btn btn-success" onclick="processExamSubmission()">Confirm & Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Modal -->
+  <div id="loading-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="spinner"></div>
+      <h3 class="modal-title">Submitting Exam...</h3>
+      <p class="modal-body">Saving your answers and compiling results.</p>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT: Complete Exam Logic, Data & Animations
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       1. Questions Database (Statistics Chapters 1 & 2 - El Moasser Style)
+       ========================================================================== */
+    const EXAM_QUESTIONS = [
+  {
+    "id": 1,
+    "question": "If the semi-interquartile range = 9.5 , the lower quartile = 31 , then the upper quartile = .............",
+    "options": [
+      "21.5",
+      "40.5",
+      "50",
+      "59"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Semi-interquartile range = (Q₃ − Q₁) / 2 = 9.5<br>⇒ Q₃ − 31 = 2 × 9.5 = 19<br>⇒ Q₃ = 31 + 19 = 50."
+  },
+  {
+    "id": 2,
+    "question": "From the opposite box plot , the semi-interquartile range = .............\n<div class=\"diagram-container\">\n  <svg viewBox=\"0 0 460 130\" class=\"exam-diagram\" style=\"max-width: 440px; width: 100%;\">\n    <line x1=\"20\" y1=\"95\" x2=\"440\" y2=\"95\" stroke=\"#ec4899\" stroke-width=\"2.5\" />\n    <g font-family=\"Poppins, sans-serif\" font-size=\"12\" fill=\"#38bdf8\" text-anchor=\"middle\" font-weight=\"600\">\n      <line x1=\"40\" y1=\"90\" x2=\"40\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"40\" y=\"118\">24</text>\n      <line x1=\"85\" y1=\"90\" x2=\"85\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"85\" y=\"118\">26</text>\n      <line x1=\"130\" y1=\"90\" x2=\"130\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"130\" y=\"118\">28</text>\n      <line x1=\"175\" y1=\"90\" x2=\"175\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"175\" y=\"118\">30</text>\n      <line x1=\"220\" y1=\"90\" x2=\"220\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"220\" y=\"118\">32</text>\n      <line x1=\"265\" y1=\"90\" x2=\"265\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"265\" y=\"118\">34</text>\n      <line x1=\"310\" y1=\"90\" x2=\"310\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"310\" y=\"118\">36</text>\n      <line x1=\"355\" y1=\"90\" x2=\"355\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"355\" y=\"118\">38</text>\n      <line x1=\"400\" y1=\"90\" x2=\"400\" y2=\"100\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n      <text x=\"400\" y=\"118\">40</text>\n    </g>\n    <line x1=\"62.5\" y1=\"35\" x2=\"62.5\" y2=\"55\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n    <line x1=\"62.5\" y1=\"45\" x2=\"152.5\" y2=\"45\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n    <rect x=\"152.5\" y=\"25\" width=\"202.5\" height=\"40\" fill=\"rgba(236,72,153,0.15)\" stroke=\"#ec4899\" stroke-width=\"2.5\" rx=\"3\"/>\n    <line x1=\"287.5\" y1=\"25\" x2=\"287.5\" y2=\"65\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n    <line x1=\"355\" y1=\"45\" x2=\"377.5\" y2=\"45\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n    <line x1=\"377.5\" y1=\"35\" x2=\"377.5\" y2=\"55\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n  </svg>\n</div>",
+    "options": [
+      "15",
+      "7.5",
+      "9",
+      "4.5"
+    ],
+    "correctAnswer": 3,
+    "explanation": "From the box plot: Q₁ = 29 and Q₃ = 38.<br>Interquartile range (IQR) = Q₃ − Q₁ = 38 − 29 = 9.<br>Semi-interquartile range = IQR / 2 = 9 / 2 = 4.5."
+  },
+  {
+    "id": 3,
+    "question": "If the opposite scatter diagram represents the relation between X and y , then the correlation between the two variables X and y is .............\n<div class=\"diagram-container\">\n  <svg viewBox=\"0 0 220 180\" class=\"exam-diagram\" style=\"max-width: 200px;\">\n    <line x1=\"30\" y1=\"150\" x2=\"195\" y2=\"150\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n    <polygon points=\"195,146 205,150 195,154\" fill=\"#ec4899\"/>\n    <text x=\"202\" y=\"145\" fill=\"#38bdf8\" font-weight=\"bold\" font-size=\"16\">X</text>\n    <line x1=\"30\" y1=\"150\" x2=\"30\" y2=\"20\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n    <polygon points=\"26,20 30,10 34,20\" fill=\"#ec4899\"/>\n    <text x=\"20\" y=\"20\" fill=\"#38bdf8\" font-weight=\"bold\" font-size=\"16\">y</text>\n    <g fill=\"#f43f5e\" stroke=\"#fff\" stroke-width=\"0.8\">\n      <circle cx=\"48\" cy=\"38\" r=\"3.5\"/><circle cx=\"58\" cy=\"42\" r=\"3.5\"/>\n      <circle cx=\"54\" cy=\"52\" r=\"3.5\"/><circle cx=\"68\" cy=\"48\" r=\"3.5\"/>\n      <circle cx=\"64\" cy=\"62\" r=\"3.5\"/><circle cx=\"78\" cy=\"58\" r=\"3.5\"/>\n      <circle cx=\"76\" cy=\"74\" r=\"3.5\"/><circle cx=\"88\" cy=\"70\" r=\"3.5\"/>\n      <circle cx=\"86\" cy=\"88\" r=\"3.5\"/><circle cx=\"98\" cy=\"84\" r=\"3.5\"/>\n      <circle cx=\"96\" cy=\"100\" r=\"3.5\"/><circle cx=\"108\" cy=\"96\" r=\"3.5\"/>\n      <circle cx=\"106\" cy=\"114\" r=\"3.5\"/><circle cx=\"118\" cy=\"110\" r=\"3.5\"/>\n      <circle cx=\"118\" cy=\"126\" r=\"3.5\"/><circle cx=\"128\" cy=\"122\" r=\"3.5\"/>\n      <circle cx=\"132\" cy=\"138\" r=\"3.5\"/><circle cx=\"142\" cy=\"134\" r=\"3.5\"/>\n    </g>\n  </svg>\n</div>",
+    "options": [
+      "inverse perfect",
+      "inverse strong",
+      "direct strong",
+      "direct perfect"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The scatter plot points fall closely along a decreasing line, which demonstrates a strong inverse (negative) correlation."
+  },
+  {
+    "id": 4,
+    "question": "If the equation of regression line y on X is : ŷ = 4 + 0.5 X and the table value of y is 7.2 at X = 6 , then the error in the value of y equals .............",
+    "options": [
+      "-0.8",
+      "-0.2",
+      "0.2",
+      "0.8"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Predicted value ŷ = 4 + 0.5(6) = 4 + 3 = 7.<br>Error = |Table value − Predicted value| = |7.2 − 7| = 0.2."
+  },
+  {
+    "id": 5,
+    "question": "If the two points (2 , 8) , (7 , 3) lie on the regression line y on X and the correlation was perfect , then the correlation coefficient is .............",
+    "options": [
+      "-1",
+      "zero",
+      "½",
+      "1"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Slope of the regression line = (3 − 8) / (7 − 2) = -5 / 5 = -1.<br>Since the correlation is perfect and the line has a negative slope, r = -1."
+  },
+  {
+    "id": 6,
+    "question": "In a study of the relation between two variables X and y , if Σ X = 68 , Σ y = 36 , Σ x y = 348 , Σ X² = 620 , Σ y² = 204 , n = 8 , then Pearson's correlation coefficient between X and y = .............",
+    "options": [
+      "1",
+      "0.5",
+      "-0.5",
+      "-1"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Pearson's r = [n Σxy − (Σx)(Σy)] / √{[n Σx² − (Σx)²] [n Σy² − (Σy)²]}<br>= [8(348) − (68)(36)] / √{[8(620) − 68²] [8(204) − 36²]}<br>= 336 / √(336 × 336) = 336 / 336 = 1."
+  },
+  {
+    "id": 7,
+    "question": "If the regression equation is ŷ = 3 − 4 X , then the expected value of y when X = 2 is .............",
+    "options": [
+      "-5",
+      "-2",
+      "2",
+      "5"
+    ],
+    "correctAnswer": 0,
+    "explanation": "ŷ = 3 − 4(2) = 3 − 8 = -5."
+  },
+  {
+    "id": 8,
+    "question": "From the data in the following table:\n<div class=\"data-table-wrapper\">\n  <table class=\"exam-data-table\">\n    <tr><th>X</th><td>10</td><td>12</td><td>14</td><td>16</td></tr>\n    <tr><th>y</th><td>18</td><td>20</td><td>21</td><td>24</td></tr>\n  </table>\n</div>\nthe Spearman's rank correlation coefficient between X , y equals .............",
+    "options": [
+      "-1",
+      "zero",
+      "0.5",
+      "1"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Notice that both X and y increase strictly in the same relative order (ranks of X = 1, 2, 3, 4 and ranks of y = 1, 2, 3, 4). The difference of ranks D = 0 for every student, so r = 1."
+  },
+  {
+    "id": 9,
+    "question": "If D is the difference between ranks of two variables and Σ D² = zero , then the correlation coefficient r between the two variables = .............",
+    "options": [
+      "-1",
+      "zero",
+      "0.5",
+      "1"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Spearman formula: r = 1 − [6 ΣD² / (n(n² − 1))].<br>Since ΣD² = 0, r = 1 − 0 = 1."
+  },
+  {
+    "id": 10,
+    "question": "In a study of the relationship between two variables X , y where Σ X = 10 , Σ y = 32 , n = 4 and the equation of the regression line is y = a + 2 X , then a = .............",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "correctAnswer": 2,
+    "explanation": "x̄ = 10 / 4 = 2.5 and ȳ = 32 / 4 = 8.<br>The regression line passes through (x̄, ȳ):<br>8 = a + 2(2.5) ⇒ 8 = a + 5 ⇒ a = 3."
+  },
+  {
+    "id": 11,
+    "question": "The following table shows the frequency table of the ages of 20 teachers:\n<div class=\"data-table-wrapper\">\n  <table class=\"exam-data-table\">\n    <tr><th>The ages</th><td>33–</td><td>38–</td><td>43–</td><td>48–</td><td>53–</td><td>Total</td></tr>\n    <tr><th>Number of teachers</th><td>3</td><td>7</td><td>4</td><td>2</td><td>4</td><td>20</td></tr>\n  </table>\n</div>\nthen the semi-interquartile range of these ages = .............",
+    "options": [
+      "50 ½",
+      "39 ³/₇",
+      "5 ¹⁵/₂₈",
+      "43"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Total n = 20.<br>Q₁ order = 20/4 = 5 ⇒ in class (38–43): Q₁ = 38 + [(5−3)/7] × 5 = 39 ³/₇.<br>Q₃ order = 15 ⇒ in class (48–53): Q₃ = 48 + [(15−14)/2] × 5 = 50 ½.<br>Semi-IQR = (Q₃ − Q₁) / 2 = (50.5 − 39.4286) / 2 = 155 / 28 = 5 ¹⁵/₂₈."
+  },
+  {
+    "id": 12,
+    "question": "The following table shows the marks of 6 students in the History and Statistics subjects:\n<div class=\"data-table-wrapper\">\n  <table class=\"exam-data-table\">\n    <tr><th>History (X)</th><td>10</td><td>7</td><td>9</td><td>11</td><td>13</td><td>16</td></tr>\n    <tr><th>Statistics (y)</th><td>12</td><td>20</td><td>14</td><td>10</td><td>9</td><td>7</td></tr>\n  </table>\n</div>\nthen the Spearman's rank correlation coefficient between the marks of History and Statistics = .............",
+    "options": [
+      "0.5",
+      "zero",
+      "-1",
+      "1"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Notice that as History marks increase (7, 9, 10, 11, 13, 16), Statistics marks strictly decrease (20, 14, 12, 10, 9, 7). The ranks are reversed, which gives perfect inverse correlation: r = -1."
+  },
+  {
+    "id": 13,
+    "question": "If the corresponding representation is a stem and leaf diagram for a collection of data:\n<div class=\"stem-leaf-wrapper\">\n  <table class=\"stem-leaf-table\">\n    <thead><tr><th>Stem</th><th>Leaves</th></tr></thead>\n    <tbody>\n      <tr><td>23</td><td>4 &nbsp; 5</td></tr>\n      <tr><td>24</td><td>4 &nbsp; 7 &nbsp; 9</td></tr>\n      <tr><td>25</td><td>0 &nbsp; 4 &nbsp; 8 &nbsp; 8</td></tr>\n      <tr><td>26</td><td>3 &nbsp; 8 &nbsp; 9</td></tr>\n      <tr><td>27</td><td>1 &nbsp; 2 &nbsp; 5</td></tr>\n    </tbody>\n  </table>\n  <div class=\"stem-leaf-key\">Key: 24 | 7 = 24.7</div>\n</div>\nthen mode = .............",
+    "options": [
+      "23.5",
+      "25.8",
+      "26.3",
+      "27.5"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In row with stem 25, the leaf 8 is repeated twice (25.8, 25.8). No other number repeats, so the mode is 25.8."
+  },
+  {
+    "id": 14,
+    "question": "In a statistical study to find the correlation coefficient between two variables X and y , if Σ X = 0 , Σ y = 0 , Σ X² = 10 , Σ y² = 40 , Σ X y = 20 and n = 5 , then Pearson's correlation coefficient between X and y = .............",
+    "options": [
+      "1",
+      "-1",
+      "0.5",
+      "-0.5"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Pearson's r = [5(20) − 0] / √[(5×10 − 0)(5×40 − 0)] = 100 / √(50 × 200) = 100 / √10000 = 100 / 100 = 1."
+  },
+  {
+    "id": 15,
+    "question": "The opposite data represents the number of mathematics books in the libraries of 15 schools:\n<div class=\"stem-leaf-wrapper\">\n  <table class=\"stem-leaf-table\">\n    <thead><tr><th>Stem</th><th>Leaves</th></tr></thead>\n    <tbody>\n      <tr><td>0</td><td>1 &nbsp; 1 &nbsp; 2 &nbsp; 3</td></tr>\n      <tr><td>1</td><td>0 &nbsp; 1 &nbsp; 1 &nbsp; m &nbsp; 3 &nbsp; 5</td></tr>\n      <tr><td>2</td><td>2 &nbsp; 4 &nbsp; 8</td></tr>\n      <tr><td>3</td><td>0 &nbsp; 3</td></tr>\n    </tbody>\n  </table>\n  <div class=\"stem-leaf-key\">Key: 1 | 5 = 15</div>\n</div>\nIf the median for this data was 12 , then m = .............",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Total values = 15. The median is the (15 + 1) / 2 = 8th value.<br>Counting in order: 1, 1, 2, 3 (4 values), 10, 11, 11 (values 5, 6, 7). The 8th value is 10 + m.<br>Since median = 12, 10 + m = 12 ⇒ m = 2."
+  },
+  {
+    "id": 16,
+    "question": "The interquartile range of the values : 3 , 5 , 2 , 9 , 3 , 2 , 5 , 6 , 7 , 8 , 4 equals .............",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "7"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Ordered data (11 values): 2, 2, 3, 3, 4, 5, 5, 6, 7, 8, 9.<br>Median (6th value) = 5.<br>Lower half: 2, 2, 3, 3, 4 ⇒ Q₁ = 3.<br>Upper half: 5, 6, 7, 8, 9 ⇒ Q₃ = 7.<br>IQR = Q₃ − Q₁ = 7 − 3 = 4."
+  },
+  {
+    "id": 17,
+    "question": "If Σ x = 25 , Σ y = 20 , Σ x² = 135 , Σ x y = 92 , n = 5 , then the equation of regression line y on X is ŷ = .............",
+    "options": [
+      "8 + 0.8 X",
+      "8 − 0.8 X",
+      "-8 + 0.8 X",
+      "-8 − 0.8 X"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Slope b = [5(92) − 25(20)] / [5(135) − 25²] = (460 − 500) / (675 − 625) = -40 / 50 = -0.8.<br>Intercept a = ȳ − b x̄ = 4 − (-0.8)(5) = 4 + 4 = 8.<br>Equation: ŷ = 8 − 0.8 X."
+  },
+  {
+    "id": 18,
+    "question": "The following box plot shows the distribution of marks for a group of students in an Arabic exam:\n<div class=\"diagram-container\">\n  <svg viewBox=\"0 0 500 150\" class=\"exam-diagram\" style=\"max-width: 460px; width: 100%;\">\n    <g stroke=\"rgba(236,72,153,0.25)\" stroke-width=\"0.8\">\n      <line x1=\"40\" y1=\"20\" x2=\"40\" y2=\"105\"/>\n      <line x1=\"76\" y1=\"20\" x2=\"76\" y2=\"105\"/>\n      <line x1=\"112\" y1=\"20\" x2=\"112\" y2=\"105\"/>\n      <line x1=\"148\" y1=\"20\" x2=\"148\" y2=\"105\"/>\n      <line x1=\"184\" y1=\"20\" x2=\"184\" y2=\"105\"/>\n      <line x1=\"220\" y1=\"20\" x2=\"220\" y2=\"105\"/>\n      <line x1=\"256\" y1=\"20\" x2=\"256\" y2=\"105\"/>\n      <line x1=\"292\" y1=\"20\" x2=\"292\" y2=\"105\"/>\n      <line x1=\"328\" y1=\"20\" x2=\"328\" y2=\"105\"/>\n      <line x1=\"364\" y1=\"20\" x2=\"364\" y2=\"105\"/>\n      <line x1=\"400\" y1=\"20\" x2=\"400\" y2=\"105\"/>\n      <line x1=\"436\" y1=\"20\" x2=\"436\" y2=\"105\"/>\n      <line x1=\"472\" y1=\"20\" x2=\"472\" y2=\"105\"/>\n      <line x1=\"40\" y1=\"35\" x2=\"472\" y2=\"35\"/>\n      <line x1=\"40\" y1=\"50\" x2=\"472\" y2=\"50\"/>\n      <line x1=\"40\" y1=\"65\" x2=\"472\" y2=\"65\"/>\n      <line x1=\"40\" y1=\"80\" x2=\"472\" y2=\"80\"/>\n      <line x1=\"40\" y1=\"95\" x2=\"472\" y2=\"95\"/>\n    </g>\n    <line x1=\"80\" y1=\"105\" x2=\"480\" y2=\"105\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n    <g font-family=\"Poppins, sans-serif\" font-size=\"13\" fill=\"#38bdf8\" text-anchor=\"middle\" font-weight=\"600\">\n      <text x=\"112\" y=\"128\">0</text>\n      <text x=\"184\" y=\"128\">10</text>\n      <text x=\"256\" y=\"128\">20</text>\n      <text x=\"328\" y=\"128\">30</text>\n      <text x=\"400\" y=\"128\">40</text>\n      <text x=\"472\" y=\"128\">50</text>\n    </g>\n    <line x1=\"184\" y1=\"50\" x2=\"184\" y2=\"70\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n    <line x1=\"184\" y1=\"60\" x2=\"256\" y2=\"60\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n    <rect x=\"256\" y=\"40\" width=\"101\" height=\"40\" fill=\"rgba(236,72,153,0.18)\" stroke=\"#ec4899\" stroke-width=\"2.5\" rx=\"3\"/>\n    <line x1=\"300\" y1=\"40\" x2=\"300\" y2=\"80\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n    <line x1=\"357\" y1=\"60\" x2=\"436\" y2=\"60\" stroke=\"#ec4899\" stroke-width=\"2\"/>\n    <line x1=\"436\" y1=\"50\" x2=\"436\" y2=\"70\" stroke=\"#ec4899\" stroke-width=\"2.5\"/>\n  </svg>\n</div>\nLower quartile of the data = .............",
+    "options": [
+      "0",
+      "5",
+      "10",
+      "20"
+    ],
+    "correctAnswer": 3,
+    "explanation": "In a box plot, the lower quartile Q₁ is represented by the left border of the box, which is at the mark 20."
+  },
+  {
+    "id": 19,
+    "question": "From the opposite stem and leaves plot :\n<div class=\"stem-leaf-wrapper\">\n  <table class=\"stem-leaf-table\">\n    <thead><tr><th>Stem</th><th>Leaves</th></tr></thead>\n    <tbody>\n      <tr><td>2</td><td>1 &nbsp; 1 &nbsp; 2 &nbsp; 3</td></tr>\n      <tr><td>3</td><td>6 &nbsp; 7 &nbsp; 7</td></tr>\n      <tr><td>4</td><td>0 &nbsp; 1 &nbsp; 2 &nbsp; 2</td></tr>\n    </tbody>\n  </table>\n  <div class=\"stem-leaf-key\">Key: 2 | 3 = 23</div>\n</div>\nQ₁ + Q₂ + Q₃ = .............",
+    "options": [
+      "100",
+      "92",
+      "106",
+      "98"
+    ],
+    "correctAnswer": 0,
+    "explanation": "11 values in order: 21, 21, 22, 23, 36, 37, 37, 40, 41, 42, 42.<br>Q₁ (3rd value) = 22.<br>Q₂ = Median (6th value) = 37.<br>Q₃ (9th value) = 41.<br>Q₁ + Q₂ + Q₃ = 22 + 37 + 41 = 100."
+  },
+  {
+    "id": 20,
+    "question": "In the equation of the regression line : ŷ = b X + a , if the coefficient of X is greater than zero , then the correlation between X , y is .............",
+    "options": [
+      "nihilistic",
+      "perfect",
+      "direct",
+      "inverse"
+    ],
+    "correctAnswer": 2,
+    "explanation": "When the regression coefficient (slope) b > 0, an increase in X corresponds to an expected increase in y, which defines a direct (positive) correlation."
+  }
+];
+
+    /* ==========================================================================
+       2. Application State
+       ========================================================================== */
+    const TOTAL_EXAM_TIME_SECONDS = 45 * 60; // 45 minutes = 2700s
+    let state = {
+      studentName: '',
+      currentQuestionIndex: 0,
+      userAnswers: new Array(EXAM_QUESTIONS.length).fill(null),
+      timeRemaining: TOTAL_EXAM_TIME_SECONDS,
+      timerInterval: null,
+      examSubmitted: false,
+      calculatedResults: null,
+      reviewFilter: 'all'
+    };
+
+    /* ==========================================================================
+       3. Screen Management
+       ========================================================================== */
+    function showScreen(screenId) {
+      const screens = document.querySelectorAll('.screen');
+      screens.forEach(screen => {
+        if (screen.id === screenId) {
+          screen.classList.add('active');
+        } else {
+          screen.classList.remove('active');
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ==========================================================================
+       4. Registration & Exam Start
+       ========================================================================== */
+    function handleStartExam(event) {
+      if (event) event.preventDefault();
+      const nameInput = document.getElementById('student-name');
+      const nameError = document.getElementById('name-error');
+      const name = nameInput.value.trim();
+
+      if (!name) {
+        nameError.style.display = 'block';
+        nameInput.focus();
+        return;
+      }
+
+      nameError.style.display = 'none';
+      state.studentName = name;
+      document.getElementById('exam-student-display').textContent = name;
+      document.getElementById('results-student-name').textContent = `Student: ${name}`;
+
+      // Reset state for a fresh exam
+      state.currentQuestionIndex = 0;
+      state.userAnswers = new Array(EXAM_QUESTIONS.length).fill(null);
+      state.timeRemaining = TOTAL_EXAM_TIME_SECONDS;
+      state.examSubmitted = false;
+      state.calculatedResults = null;
+
+      // Start timer
+      startExamTimer();
+
+      // Show exam screen
+      showScreen('screen-exam');
+      renderQuestion(0);
+      renderQuestionMap();
+      showToast(`Welcome ${name}! Good luck on your exam.`);
+    }
+
+    /* ==========================================================================
+       5. Countdown Timer
+       ========================================================================== */
+    function startExamTimer() {
+      clearInterval(state.timerInterval);
+      updateTimerDisplay();
+
+      state.timerInterval = setInterval(() => {
+        state.timeRemaining--;
+        updateTimerDisplay();
+
+        if (state.timeRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          autoSubmitOnTimeUp();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const timerBadge = document.getElementById('exam-timer');
+      const timerText = document.getElementById('timer-text');
+
+      const minutes = Math.floor(Math.max(0, state.timeRemaining) / 60);
+      const seconds = Math.max(0, state.timeRemaining) % 60;
+      const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      timerText.textContent = formatted;
+
+      // Pulse red when under 5 minutes (300 seconds)
+      if (state.timeRemaining <= 300) {
+        timerBadge.classList.add('urgent');
+      } else {
+        timerBadge.classList.remove('urgent');
+      }
+    }
+
+    function autoSubmitOnTimeUp() {
+      if (state.examSubmitted) return;
+      showToast("⏰ Time is up! Submitting exam automatically...");
+      processExamSubmission();
+    }
+
+    /* ==========================================================================
+       6. Question Rendering & Option Selection
+       ========================================================================== */
+    function renderQuestion(index) {
+      if (index < 0 || index >= EXAM_QUESTIONS.length) return;
+      state.currentQuestionIndex = index;
+      const q = EXAM_QUESTIONS[index];
+
+      // Update counters & progress
+      document.getElementById('q-counter-display').textContent = `${index + 1} / ${EXAM_QUESTIONS.length}`;
+      const progressPercent = ((index + 1) / EXAM_QUESTIONS.length) * 100;
+      document.getElementById('exam-progress-fill').style.width = `${progressPercent}%`;
+
+      // Update Question text
+      document.getElementById('question-tag').textContent = `Question ${index + 1} of ${EXAM_QUESTIONS.length}`;
+      document.getElementById('question-text').innerHTML = q.question;
+
+      // Render Options
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      const letters = ['A', 'B', 'C', 'D'];
+      const selectedOption = state.userAnswers[index];
+
+      q.options.forEach((optText, optIdx) => {
+        const isSelected = selectedOption === optIdx;
+        const optionCard = document.createElement('div');
+        optionCard.className = `option-card ${isSelected ? 'selected' : ''}`;
+        optionCard.onclick = () => selectOption(optIdx);
+
+        optionCard.innerHTML = `
+          <div class="option-letter">${letters[optIdx]}</div>
+          <div class="option-content">${optText}</div>
+          <div class="option-radio"></div>
+        `;
+        optionsContainer.appendChild(optionCard);
+      });
+
+      // Update Navigation Buttons
+      const btnPrev = document.getElementById('btn-prev-question');
+      const btnNext = document.getElementById('btn-next-question');
+      const btnSubmit = document.getElementById('btn-submit-exam');
+
+      btnPrev.disabled = index === 0;
+
+      if (index === EXAM_QUESTIONS.length - 1) {
+        btnNext.style.display = 'none';
+        btnSubmit.style.display = 'inline-flex';
+      } else {
+        btnNext.style.display = 'inline-flex';
+        btnSubmit.style.display = 'none';
+      }
+
+      // Refresh question map highlights
+      updateQuestionMap();
+    }
+
+    function selectOption(optionIndex) {
+      state.userAnswers[state.currentQuestionIndex] = optionIndex;
+      renderQuestion(state.currentQuestionIndex);
+      updateQuestionMap();
+    }
+
+    function nextQuestion() {
+      if (state.currentQuestionIndex < EXAM_QUESTIONS.length - 1) {
+        animateSlide('next', () => {
+          renderQuestion(state.currentQuestionIndex + 1);
+        });
+      }
+    }
+
+    function prevQuestion() {
+      if (state.currentQuestionIndex > 0) {
+        animateSlide('prev', () => {
+          renderQuestion(state.currentQuestionIndex - 1);
+        });
+      }
+    }
+
+    function jumpToQuestion(index) {
+      if (index >= 0 && index < EXAM_QUESTIONS.length) {
+        const direction = index > state.currentQuestionIndex ? 'next' : 'prev';
+        animateSlide(direction, () => {
+          renderQuestion(index);
+        });
+      }
+    }
+
+    function animateSlide(direction, callback) {
+      const container = document.getElementById('question-slide-container');
+      container.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
+
+      const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+      container.classList.add(outClass);
+
+      setTimeout(() => {
+        callback();
+        container.classList.remove(outClass);
+        container.classList.add('slide-in');
+      }, 150);
+    }
+
+    /* ==========================================================================
+       7. Question Map Drawer
+       ========================================================================== */
+    function toggleQuestionMap() {
+      const wrapper = document.getElementById('question-map-wrapper');
+      const btn = document.getElementById('btn-toggle-map');
+      wrapper.classList.toggle('open');
+      if (wrapper.classList.contains('open')) {
+        btn.classList.add('active');
+        btn.querySelector('span').textContent = 'Hide Map';
+      } else {
+        btn.classList.remove('active');
+        btn.querySelector('span').textContent = 'Question Map';
+      }
+    }
+
+    function renderQuestionMap() {
+      const grid = document.getElementById('question-map-grid');
+      grid.innerHTML = '';
+
+      EXAM_QUESTIONS.forEach((_, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'q-map-btn';
+        btn.textContent = idx + 1;
+        btn.id = `q-map-btn-${idx}`;
+        btn.onclick = () => jumpToQuestion(idx);
+        grid.appendChild(btn);
+      });
+
+      updateQuestionMap();
+    }
+
+    function updateQuestionMap() {
+      EXAM_QUESTIONS.forEach((_, idx) => {
+        const btn = document.getElementById(`q-map-btn-${idx}`);
+        if (!btn) return;
+
+        btn.classList.remove('current', 'answered');
+
+        if (idx === state.currentQuestionIndex) {
+          btn.classList.add('current');
+        } else if (state.userAnswers[idx] !== null && state.userAnswers[idx] !== undefined) {
+          btn.classList.add('answered');
+        }
+      });
+    }
+
+    /* ==========================================================================
+       8. Submission & API Handling
+       ========================================================================== */
+    function openSubmitModal() {
+      const modal = document.getElementById('confirm-modal');
+      const modalBody = document.getElementById('confirm-modal-body');
+
+      const answeredCount = state.userAnswers.filter(ans => ans !== null).length;
+      const unansweredCount = EXAM_QUESTIONS.length - answeredCount;
+
+      if (unansweredCount > 0) {
+        modalBody.innerHTML = `You have answered <strong>${answeredCount}</strong> of <strong>${EXAM_QUESTIONS.length}</strong> questions.<br><span style="color: var(--color-warning);">⚠️ Warning: You have ${unansweredCount} unanswered question(s).</span><br>Are you sure you want to finish now?`;
+      } else {
+        modalBody.innerHTML = `Awesome! You have answered all <strong>${answeredCount}</strong> of <strong>${EXAM_QUESTIONS.length}</strong> questions.<br>Are you ready to view your final score?`;
+      }
+
+      modal.classList.add('active');
+    }
+
+    function closeSubmitModal() {
+      document.getElementById('confirm-modal').classList.remove('active');
+    }
+
+    async function processExamSubmission() {
+      closeSubmitModal();
+      clearInterval(state.timerInterval);
+      state.examSubmitted = true;
+
+      // Show loading spinner modal
+      const loadingModal = document.getElementById('loading-modal');
+      loadingModal.classList.add('active');
+
+      // Calculate score & answers
+      let correctCount = 0;
+      const formattedAnswers = EXAM_QUESTIONS.map((q, idx) => {
+        const studentAns = state.userAnswers[idx];
+        const isCorrect = studentAns === q.correctAnswer;
+        if (isCorrect) correctCount++;
+        return {
+          questionId: q.id,
+          studentAnswer: studentAns,
+          correctAnswer: q.correctAnswer,
+          isCorrect: isCorrect
+        };
+      });
+
+      const total = EXAM_QUESTIONS.length;
+      const percentage = Math.round((correctCount / total) * 100);
+      const timeSpentSec = TOTAL_EXAM_TIME_SECONDS - Math.max(0, state.timeRemaining);
+      const timeMin = Math.floor(timeSpentSec / 60);
+      const timeSec = timeSpentSec % 60;
+      const formattedTimeTaken = `${String(timeMin).padStart(2, '0')}:${String(timeSec).padStart(2, '0')}`;
+
+      const payload = {
+        studentName: state.studentName,
+        score: correctCount,
+        total: total,
+        percentage: percentage,
+        timeTaken: formattedTimeTaken,
+        answers: formattedAnswers,
+        timestamp: new Date().toISOString()
+      };
+
+      state.calculatedResults = payload;
+
+      // Backup to localStorage
+      try {
+        localStorage.setItem('statistics_exam_results', JSON.stringify(payload));
+      } catch (e) {
+        console.warn('LocalStorage error:', e);
+      }
+
+      // POST to /api/results with graceful fallback
+      try {
+        const response = await fetch('/api/results', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+          console.log('Results saved successfully to server');
+        } else {
+          console.log('Server returned status', response.status, '- Results safely saved in local storage');
+        }
+      } catch (err) {
+        console.log('Network request to /api/results omitted or offline - Results safely stored locally.');
+      }
+
+      // Simulate smooth natural transition
+      setTimeout(() => {
+        loadingModal.classList.remove('active');
+        displayResults(payload);
+      }, 700);
+    }
+
+    /* ==========================================================================
+       9. Results Screen & Visual Animations
+       ========================================================================== */
+    function displayResults(data) {
+      showScreen('screen-results');
+
+      // Populate summary numbers
+      document.getElementById('stat-correct-count').textContent = data.score;
+      document.getElementById('stat-incorrect-count').textContent = data.total - data.score;
+      document.getElementById('stat-time-taken').textContent = data.timeTaken;
+      document.getElementById('stat-accuracy').textContent = `${data.percentage}%`;
+      document.getElementById('result-score-fraction').textContent = `${data.score} / ${data.total}`;
+
+      // Animate percentage text and circle ring
+      animateScore(data.percentage);
+
+      // Determine Grade Badge
+      const gradeBadge = document.getElementById('result-grade-badge');
+      gradeBadge.className = 'grade-badge';
+
+      if (data.percentage >= 90) {
+        gradeBadge.textContent = 'Excellent 🌟';
+        gradeBadge.classList.add('grade-excellent');
+      } else if (data.percentage >= 75) {
+        gradeBadge.textContent = 'Very Good 🎖️';
+        gradeBadge.classList.add('grade-very-good');
+      } else if (data.percentage >= 60) {
+        gradeBadge.textContent = 'Good 👍';
+        gradeBadge.classList.add('grade-good');
+      } else if (data.percentage >= 50) {
+        gradeBadge.textContent = 'Pass ✔️';
+        gradeBadge.classList.add('grade-pass');
+      } else {
+        gradeBadge.textContent = 'Fail ❌';
+        gradeBadge.classList.add('grade-fail');
+      }
+
+      // Confetti celebration if score >= 60%
+      if (data.percentage >= 60) {
+        triggerConfetti();
+      }
+    }
+
+    function animateScore(targetPercentage) {
+      const circle = document.getElementById('score-circle-bar');
+      const textElem = document.getElementById('result-percentage');
+      const circumference = 2 * Math.PI * 70; // r = 70 => ~439.8
+
+      circle.style.strokeDasharray = `${circumference}`;
+      circle.style.strokeDashoffset = `${circumference}`;
+
+      // Animate stroke
+      setTimeout(() => {
+        const offset = circumference - (targetPercentage / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+      }, 100);
+
+      // Animate counter numbers
+      let currentVal = 0;
+      const duration = 1500;
+      const stepTime = Math.max(10, Math.floor(duration / (targetPercentage || 1)));
+
+      if (targetPercentage === 0) {
+        textElem.textContent = '0%';
+        return;
+      }
+
+      const counterInterval = setInterval(() => {
+        currentVal++;
+        textElem.textContent = `${currentVal}%`;
+        if (currentVal >= targetPercentage) {
+          clearInterval(counterInterval);
+        }
+      }, stepTime);
+    }
+
+    /* ==========================================================================
+       10. Review Screen
+       ========================================================================== */
+    function showReviewScreen() {
+      if (!state.calculatedResults) return;
+      showScreen('screen-review');
+      filterReview('all');
+    }
+
+    function filterReview(filterType) {
+      state.reviewFilter = filterType;
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const activeBtn = document.getElementById(`filter-${filterType}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const data = state.calculatedResults;
+      document.getElementById('review-score-summary').textContent = `Final Score: ${data.score} of ${data.total} (${data.percentage}%)`;
+
+      const listContainer = document.getElementById('review-questions-list');
+      listContainer.innerHTML = '';
+
+      EXAM_QUESTIONS.forEach((q, idx) => {
+        const ansObj = data.answers[idx];
+        const studentAns = ansObj ? ansObj.studentAnswer : null;
+        const isCorrect = ansObj ? ansObj.isCorrect : false;
+        const isAnswered = studentAns !== null && studentAns !== undefined;
+
+        if (filterType === 'correct' && !isCorrect) return;
+        if (filterType === 'incorrect' && isCorrect) return;
+
+        const item = document.createElement('div');
+        item.className = 'review-item';
+
+        let tagClass = 'unanswered';
+        let tagText = 'Not Answered';
+        if (isAnswered) {
+          tagClass = isCorrect ? 'correct' : 'incorrect';
+          tagText = isCorrect ? 'Correct ✓' : 'Wrong ✗';
+        }
+
+        const letters = ['A', 'B', 'C', 'D'];
+        let optionsHtml = '';
+
+        q.options.forEach((optText, optIdx) => {
+          let optClass = '';
+          let badge = '';
+
+          if (optIdx === q.correctAnswer) {
+            optClass = 'correct-choice';
+            badge = '<span style="color: #00E676; font-weight: 700;">✓ Correct Answer</span>';
+          } else if (optIdx === studentAns && !isCorrect) {
+            optClass = 'wrong-choice';
+            badge = '<span style="color: #FF5252; font-weight: 700;">✗ Your Answer</span>';
+          }
+
+          optionsHtml += `
+            <div class="review-option ${optClass}">
+              <span><strong>${letters[optIdx]}.</strong> ${optText}</span>
+              ${badge}
+            </div>
+          `;
+        });
+
+        item.innerHTML = `
+          <div class="review-item-header">
+            <span class="review-q-num">Question ${idx + 1}</span>
+            <span class="review-status-tag ${tagClass}">${tagText}</span>
+          </div>
+          <div class="review-question-text">${q.question}</div>
+          <div class="review-options">
+            ${optionsHtml}
+          </div>
+          <div class="review-explanation">
+            <strong>Explanation:</strong> ${q.explanation}
+          </div>
+        `;
+
+        listContainer.appendChild(item);
+      });
+    }
+
+    function retakeExam() {
+      if (confirm("Are you ready to restart the exam? Your previous score will be reset.")) {
+        handleStartExam();
+      }
+    }
+
+    /* ==========================================================================
+       11. Pure Canvas Confetti Engine (No External Libraries)
+       ========================================================================== */
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ['#6C63FF', '#FF6584', '#00C853', '#FFD600', '#00E5FF', '#FFFFFF'];
+      const particles = [];
+      const particleCount = 120;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+          y: canvas.height * 0.4 + (Math.random() - 0.5) * 100,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 14,
+          vy: Math.random() * -12 - 4,
+          gravity: 0.35,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+
+      let animationFrame;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let activeParticles = 0;
+
+        particles.forEach(p => {
+          if (p.opacity > 0) {
+            activeParticles++;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += p.gravity;
+            p.rotation += p.rotationSpeed;
+            p.opacity -= 0.007;
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.globalAlpha = Math.max(0, p.opacity);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.4);
+            ctx.restore();
+          }
+        });
+
+        if (activeParticles > 0) {
+          animationFrame = requestAnimationFrame(render);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          cancelAnimationFrame(animationFrame);
+        }
+      }
+
+      render();
+    }
+
+    /* ==========================================================================
+       12. Helper UI: Toast Notifications
+       ========================================================================== */
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 400);
+      }, 3500);
+    }
+
+    // Auto-resize canvas on orientation change or window resize
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('confetti-canvas');
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    });
+
+  </script>
+</body>
+</html>
