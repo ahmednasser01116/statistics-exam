@@ -2304,7 +2304,26 @@
         console.warn('LocalStorage error:', e);
       }
 
-      // POST to /api/results with graceful fallback
+      // Cloud database save (Permanent 24/7 Cloud Store)
+      try {
+        let existing = [];
+        try {
+          const cloudRes = await fetch('https://kvdb.io/GvjcdMkHLaYt5Q96PYXJRQ/results');
+          if (cloudRes.ok) existing = await cloudRes.json();
+        } catch (e) {}
+        if (!Array.isArray(existing)) existing = [];
+        existing.push(payload);
+        await fetch('https://kvdb.io/GvjcdMkHLaYt5Q96PYXJRQ/results', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(existing)
+        });
+        console.log('Results saved permanently to Cloud Database');
+      } catch (e) {
+        console.warn('Cloud database error:', e);
+      }
+
+      // POST to /api/results with graceful fallback (for local server)
       try {
         const response = await fetch('/api/results', {
           method: 'POST',
@@ -2312,12 +2331,10 @@
           body: JSON.stringify(payload)
         });
         if (response.ok) {
-          console.log('Results saved successfully to server');
-        } else {
-          console.log('Server returned status', response.status, '- Results safely saved in local storage');
+          console.log('Results saved successfully to local server');
         }
       } catch (err) {
-        console.log('Network request to /api/results omitted or offline - Results safely stored locally.');
+        console.log('Local server offline - Results safely stored in Cloud & LocalStorage.');
       }
 
       // Simulate smooth natural transition

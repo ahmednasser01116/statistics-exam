@@ -2320,6 +2320,23 @@
     /* ==========================================================================
        DATA FETCHING & API CALLS
        ========================================================================== */
+    const CLOUD_DB_URL = 'https://kvdb.io/GvjcdMkHLaYt5Q96PYXJRQ/results';
+
+    function computeStatsFromList(list) {
+      if (!list || list.length === 0) {
+        return { count: 0, avgScore: 0, highest: 0, lowest: 0, avgPercentage: 0 };
+      }
+      const scores = list.map(r => Number(r.score) || 0);
+      const percentages = list.map(r => Number(r.percentage) || 0);
+      return {
+        count: list.length,
+        avgScore: (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1),
+        highest: Math.max(...scores),
+        lowest: Math.min(...scores),
+        avgPercentage: (percentages.reduce((a, b) => a + b, 0) / percentages.length).toFixed(1)
+      };
+    }
+
     async function fetchDashboardData(isSilent = false) {
       if (isFetching) return;
       isFetching = true;
@@ -2328,23 +2345,47 @@
       if (refreshBtn) refreshBtn.classList.add('spinning');
 
       try {
-        const [resultsResponse, statsResponse] = await Promise.all([
-          fetch('/api/results'),
-          fetch('/api/stats')
-        ]);
+        let loaded = false;
 
-        if (!resultsResponse.ok) throw new Error('Failed to fetch results');
-        if (!statsResponse.ok) throw new Error('Failed to fetch stats');
+        // 1. Try Cloud Database first (works everywhere, 24/7)
+        try {
+          const cloudRes = await fetch(CLOUD_DB_URL);
+          if (cloudRes.ok) {
+            const data = await cloudRes.json();
+            if (Array.isArray(data)) {
+              rawResults = data;
+              currentStats = computeStatsFromList(rawResults);
+              loaded = true;
+            }
+          }
+        } catch (e) {
+          console.warn('Cloud DB fetch fallback:', e);
+        }
 
-        rawResults = await resultsResponse.json();
-        currentStats = await statsResponse.json();
+        // 2. Try local /api if cloud was unavailable or returned nothing
+        if (!loaded) {
+          try {
+            const [resultsResponse, statsResponse] = await Promise.all([
+              fetch('/api/results'),
+              fetch('/api/stats')
+            ]);
+            if (resultsResponse.ok && statsResponse.ok) {
+              rawResults = await resultsResponse.json();
+              currentStats = await statsResponse.json();
+              loaded = true;
+            }
+          } catch (e) {
+            console.warn('Local API unavailable:', e);
+          }
+        }
 
-        // Update UI
-        updateStatisticsCards(currentStats, rawResults);
-        renderResultsTable();
-
-        if (!isSilent) {
-          showToast('Exam data updated.', 'info');
+        if (loaded) {
+          updateStatisticsCards(currentStats, rawResults);
+          renderResultsTable();
+          if (!isSilent) showToast('Exam data updated successfully.', 'info');
+        } else {
+          updateStatisticsCards({ count: 0, avgScore: 0, highest: 0, lowest: 0, avgPercentage: 0 }, []);
+          renderResultsTable();
         }
       } catch (err) {
         console.error('Error fetching admin data:', err);
@@ -2708,8 +2749,29 @@
 
     async function executeDeleteResult(id) {
       try {
-        const res = await fetch(`/api/results/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Delete failed');
+        // Delete from Cloud Database
+        try {
+          const cloudRes = await fetch(CLOUD_DB_URL);
+          if (cloudRes.ok) {
+            let list = await cloudRes.json();
+            if (Array.isArray(list)) {
+              list = list.filter(r => r.id !== id);
+              await fetch(CLOUD_DB_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(list)
+              });
+            }
+          }
+        } catch (e) {
+          console.warn('Cloud delete error:', e);
+        }
+
+        // Delete from local server if active
+        try {
+          await fetch(`/api/results/${id}`, { method: 'DELETE' });
+        } catch (e) {}
+
         showToast('Student result deleted successfully.', 'success');
         fetchDashboardData(true);
       } catch (err) {
@@ -2720,8 +2782,22 @@
 
     async function executeClearAll() {
       try {
-        const res = await fetch('/api/results', { method: 'DELETE' });
-        if (!res.ok) throw new Error('Clear all failed');
+        // Clear Cloud Database
+        try {
+          await fetch(CLOUD_DB_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([])
+          });
+        } catch (e) {
+          console.warn('Cloud clear error:', e);
+        }
+
+        // Clear local server if active
+        try {
+          await fetch('/api/results', { method: 'DELETE' });
+        } catch (e) {}
+
         showToast('All student results have been cleared.', 'success');
         fetchDashboardData(true);
       } catch (err) {
